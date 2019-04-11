@@ -15,7 +15,11 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        $articles = Article::latest('published_at')->get();
+        //Дія для того щоб статті відображалися коректно, якщо хтось впише дату майбутню то не буде відображатися стаття
+        //$articles = Article::latest('published_at')->where('published_at', '<=', Carbon::now())->get(); 
+        
+        // Виконуємо ту саму дію, тільки з допомогою моделі Eloquent
+        $articles = Article::latest('published_at')->published()->get();
         return view('articles.index', compact('articles'));
     }
 
@@ -53,6 +57,8 @@ class ArticlesController extends Controller
     public function show($id)
     {
         $article = Article::findOrFail($id);
+
+        //dd($article->update_at->diffForHumans());
 
         return view('articles.show', compact('article'));
     }
