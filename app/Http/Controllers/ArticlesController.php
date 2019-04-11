@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
-use App\Http\Requests\CreateArticleRequest;
+use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -40,7 +40,7 @@ class ArticlesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateArticleRequest $request)
+    public function store(ArticleRequest $request)
     {
         //$input = Request::all();
         //$input['published_at'] = Carbon::now();
@@ -77,7 +77,8 @@ class ArticlesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $article = Article::findOrFail($id); //шукаємо готову статтю
+        return view('articles.edit', compact('article'));
     }
 
     /**
@@ -87,9 +88,11 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, $id)
     {
-        //
+        $article = Article::findOrFail($id); //шукаємо готову статтю
+        $article->update($request->all());
+        return redirect('articles');
     }
 
     /**
