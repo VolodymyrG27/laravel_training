@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-//use Illuminate\Http\Request;
 use App\Article;
-use Request;
+use App\Http\Requests\CreateArticleRequest;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
+
 class ArticlesController extends Controller
 {
     /**
@@ -39,12 +40,17 @@ class ArticlesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateArticleRequest $request)
     {
         //$input = Request::all();
         //$input['published_at'] = Carbon::now();
         //Article::create($input);
-        Article::create(Request::all());
+
+        //дає інформацію яку користувач ввів в форму, теж видає помилки
+        //public function store(Request $request)
+        //$this->validate($request, ['title' => 'required', 'body' => 'required']); 
+
+        Article::create($request->all());
         return redirect('articles');
     }
 
