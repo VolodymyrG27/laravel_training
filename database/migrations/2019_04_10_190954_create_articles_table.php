@@ -15,10 +15,14 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('user_id')->unsigned();
             $table->string('title');
             $table->text('body');
             $table->timestamps();
             $table->timestamp('published_at');
+
+            /*Якщо користувач видаляє свій акаунт то і видаляться всі його пости*/
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

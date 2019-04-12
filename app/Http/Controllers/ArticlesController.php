@@ -42,14 +42,6 @@ class ArticlesController extends Controller
      */
     public function store(ArticleRequest $request)
     {
-        //$input = Request::all();
-        //$input['published_at'] = Carbon::now();
-        //Article::create($input);
-
-        //дає інформацію яку користувач ввів в форму, теж видає помилки
-        //public function store(Request $request)
-        //$this->validate($request, ['title' => 'required', 'body' => 'required']); 
-
         Article::create($request->all());
         return redirect('articles');
     }

@@ -4,13 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 class Article extends Model
 {
     //для безпеки
     protected $fillable = [
         'title',
         'body',
-        'published_at'
+        'published_at',
+        'user_id' // temporary
     ];
 
     protected $dates = ['published_at']; //для того щоб laravel розумів, що це екземпляр Carbon
@@ -25,8 +28,14 @@ class Article extends Model
         $query->where('published_at', '>', Carbon::now()); 
     }
 
-    public function setPublishedAtAttribute($date)
+    public function setPublishedAtAttribute($date) //мутатор
     {
         $this->attributes['published_at'] = Carbon::parse($date);
+    }
+
+    //Користувача до поста(підключення)
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 }
